@@ -29,7 +29,7 @@ class Beneficiary extends CI_Controller {
 	/*
 	 *
 	 **/
-	function administracion()
+	function administracion($ID = NULL)
 	{
 		if (!$this->tank_auth->is_logged_in()) {
 			redirect('/auth/login/');
@@ -52,7 +52,33 @@ class Beneficiary extends CI_Controller {
 			/* Asignamos el idioma español */
 			$crud->set_language('spanish');
 
-    		$crud->set_relation('ProductID','product','ProductID');
+			$state = $crud->getState();
+
+			switch ($state) {
+			    case 'success':
+			    	if ($ID != NULL && $ID != 'success') {
+						//echo "success ID = " . $ID . ", state = " . $state;
+						$crud->where('ProductID',$ID);	
+			    	}
+			    break;
+			    case 'list':
+			    	if ($ID != NULL) {
+						//echo "list ID = " . $ID . ", state = " . $state;
+						$crud->where('ProductID',$ID);	
+			    	}
+			    break;
+			    case 'add':
+			    	if ($ID != "add") {
+			        	$crud->field_type('ProductID', 'hidden', $ID);
+			    	}
+			    	else
+			    		$crud->set_relation('ProductID','product','ProductID');
+			    	//echo "add ID = " . $ID . ", state = " . $state;
+				break;
+			    default:
+					//echo "default ID = " . $ID . ", state = " . $state;
+					$crud->set_relation('ProductID','product','ProductID');
+			}
 
 			/* Aqui le decimos a grocery que estos campos son obligatorios */
 			$crud->required_fields(
@@ -101,7 +127,8 @@ class Beneficiary extends CI_Controller {
 			$crud->display_as('Phone1','Tel&eacutefono 1');
 			$crud->display_as('Phone2','Tel&eacutefono 2');
 			$crud->display_as('Phone3','Tel&eacutefono 3');
-	
+			$crud->display_as('Company','Empresa');
+
 			/* Generamos la tabla */
 			$output = $crud->render();
 

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Administracion Beneficiarios - Sourcezilla</title>
+<title>Administracion Movimientos - Sourcezilla</title>
 <?php
 foreach($css_files as $file): ?>
 <link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
@@ -28,7 +28,7 @@ text-decoration: underline;
 </style>
 </head>
 <body>
-<h1>Beneficiarios</h1>
+<h1>Movimientos</h1>
 <?php echo anchor('/auth/login/', 'Inicio '); echo anchor('/auth/logout/', 'Salir'); ?>
 <div>
 <?php echo $output; ?>

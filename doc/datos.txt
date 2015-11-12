@@ -1,7 +1,5 @@
 http://sourcezilla.com/articulos/programacion/como-realizar-un-crud-sencillo-en-php-y-codeigniter-desde-cero.html
 
-control  versiones: https://riouxsvn.com/, aloewens, A..12
-
 http://www.cristalab.com/tutoriales/crear-menu-de-navegacion-con-un-helper-de-codeigniter-c95190l/
 
 http://www.iluv2code.com/login-with-codeigniter-php.html
@@ -11,5 +9,7 @@ https://konyukhov.com/soft/tank_auth/
 https://www.youtube.com/watch?v=UdyICzcylM0
 
 arreglo //$model = ucfirst($model); en ..system/core/Loader.php linea 293
+
+repositorio subversion https://www.assembla.com/. (aloewens72, A..2)
 
 

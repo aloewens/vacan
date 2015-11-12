@@ -28,7 +28,7 @@ text-decoration: underline;
 </style>
 </head>
 <body>
-<h1>Administraci&oacuten de Vendedores</h1>
+<h1>Vendedores</h1>
 <?php echo anchor('/auth/login/', 'Inicio '); echo anchor('/auth/logout/', 'Salir'); ?>
 <div>
 <?php echo $output; ?>

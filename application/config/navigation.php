@@ -21,6 +21,11 @@ $config['navigation'] = array(
                 'title'  => 'Beneficiarios',
                 'link'   => 'index.php/Beneficiary'
             ),            
+            'charge' => array(
+                'id'     => 'Charge',
+                'title'  => 'Movimientos',
+                'link'   => 'index.php/Charge'
+            ),
             'vendor' => array(
                 'id'     => 'Vendor',
                 'title'  => 'Vendedores',

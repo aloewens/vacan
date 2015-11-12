@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
 /* Heredamos de la clase CI_Controller */
-class Client extends CI_Controller {
+class Charge extends CI_Controller {
 
 	function __construct()
 	{
@@ -23,7 +24,7 @@ class Client extends CI_Controller {
 		 * Mandamos todo lo que llegue a la funcion
 		 * administracion().
 		 **/
-		redirect('Client/administracion');
+		redirect('Charge/administracion');
 	}
 
 	/*
@@ -31,6 +32,7 @@ class Client extends CI_Controller {
 	 **/
 	function administracion()
 	{
+	
 		if (!$this->tank_auth->is_logged_in()) {
 			redirect('/auth/login/');
 		} 
@@ -41,72 +43,60 @@ class Client extends CI_Controller {
 			$crud = new grocery_CRUD();
 
 			/* Seleccionamos el tema */
-//			$crud->set_theme('datatables');
 			$crud->set_theme('flexigrid');
 
 			/* Seleccionmos el nombre de la tabla de nuestra base de datos*/
-			$crud->set_table('client');
+			$crud->set_table('charge');
 
 			/* Le asignamos un nombre */
-			$crud->set_subject('cliente');
+			$crud->set_subject('Movimientos');
 
 			/* Asignamos el idioma español */
 			$crud->set_language('spanish');
 
 
+			$crud->set_relation('ProductID','product','ProductID');
+
 			/* Aqui le decimos a grocery que estos campos son obligatorios */
 			$crud->required_fields(
-					'ClientID',
-					'Name',
-					'Lastname',
-					'IdentType',
-					'Ident',
-					'BirthDate',
-					'Address',
-					'City'
+					'ChargeID',
+					'ProductID',
+					'Reference',
+					'ChargeDate',
+					'ChargeType',
+					'Value',
+					'Method',
+					'Entity'	
 					); 
 
 			/* Aqui le indicamos que campos deseamos mostrar */
 			$crud->columns(
-					'ClientID',
-					'Name',
-					'Lastname',
-					'IdentType',
-					'Ident',	
-					'BirthDate',
-					'Address',
-					'City',
-					'Phone1',
-					'Phone2',
-					'Phone3',
-					'Mail',
-					'Facebook',
-					'Twitter',
-					'Facebook',
-					'Skype',
-					'Company'
+					'ChargeID',
+					'ProductID',
+					'Reference',
+					'ChargeDate',
+					'ChargeType',
+					'Value',
+					'Method',
+					'Entity'	
 			);
 
-			$crud->add_action('Productos',base_url() . 'assets/uploads/detalle.png','Product/administracion');
+			$crud->display_as('ChargeID','ID');
+			$crud->display_as('ProductID','Producto');
+			$crud->display_as('Reference','Referencia');
+			$crud->display_as('ChargeDate','Fecha Movimiento');
+			$crud->display_as('ChargeType','Tipo Movimiento');
+			$crud->display_as('Value','Valor');
+			$crud->display_as('Method','Metodo');
+			$crud->display_as('Entity','Entidad');
 
-			$crud->display_as('ClientID','ID');
-			$crud->display_as('Name','Nombre');
-			$crud->display_as('Lastname','Apellido');
-			$crud->display_as('IdentType','Tipo Identificaci&oacuten');
-			$crud->display_as('Ident','Identificaci&oacuten');
-			$crud->display_as('BirthDate','Fecha Nacimiento');
-			$crud->display_as('Address','Direcci&oacuten');
-			$crud->display_as('City','Ciudad');
-			$crud->display_as('Phone1','Tel&eacutefono 1');
-			$crud->display_as('Phone2','Tel&eacutefono 2');
-			$crud->display_as('Phone3','Tel&eacutefono 3');
-			$crud->display_as('Company','Empresa');
+			$crud->set_rules('Value','Valor','numeric');
 
 			/* Generamos la tabla */
 			$output = $crud->render();
 
 			/* La cargamos en la vista situada en */
-			$this->load->view('Client/administracion', $output);
+			$this->load->view('Charge/administracion', $output);
 
 		}catch(Exception $e){
 			/* Si algo sale mal cachamos el error y lo mostramos */

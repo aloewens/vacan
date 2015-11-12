@@ -58,17 +58,25 @@ class ProductCatalog extends CI_Controller {
 			/* Aqui le decimos a grocery que estos campos son obligatorios */
 			$crud->required_fields(
 					'ProductCatalogID',
-					'Description'
+					'Description',
+					'Status',
+					'Price'
 					); 
 
 			/* Aqui le indicamos que campos deseamos mostrar */
 			$crud->columns(
 					'ProductCatalogID',
-					'Description'
+					'Description',
+					'Status',
+					'Price'
 			);
 
 			$crud->display_as('ProductCatalogID','ID');
 			$crud->display_as('Description','Descripci&oacuten');
+			$crud->display_as('Status','Estado');
+			$crud->display_as('Price','Precio');
+
+			$crud->set_rules('Price','Precio','numeric');
 
 			/* Generamos la tabla */
 			$output = $crud->render();
