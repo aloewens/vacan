@@ -109,7 +109,16 @@ class Product extends CI_Controller {
 					'EndDate'
 			);
 
+			$crud->display_as('ProductID','ID');
+			$crud->display_as('ProductCatalogID','Producto');
+			$crud->display_as('Contract','Contrato');
+			$crud->display_as('ClientID','ID Cliente');
+			$crud->display_as('VendorID','ID Vendedor');
+			$crud->display_as('StartDate','Fecha Inicio Vigencia');
+			$crud->display_as('EndDate','Fecha Fin Vigencia');
+
 			$crud->add_action('Beneficiarios',base_url() . 'assets/uploads/detalle.png','Beneficiary/administracion');
+			$crud->add_action('Movimientos',base_url() . 'assets/uploads/money.png','Charge/administracion');
 
 			$crud->display_as('ProductID','ID');
 			$crud->display_as('ProductCatalogID','ID Producto');

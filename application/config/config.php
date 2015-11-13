@@ -372,6 +372,7 @@ $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
 /* Andro Loewenstein. Tank Auth Configuracion */
 $config['sess_use_database'] = TRUE;
+$config['sess_table_name'] = 'ci_sessions';
 
 /*
 |--------------------------------------------------------------------------

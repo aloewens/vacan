@@ -30,7 +30,7 @@ class Charge extends CI_Controller {
 	/*
 	 *
 	 **/
-	function administracion()
+	function administracion($ID = NULL)
 	{
 	
 		if (!$this->tank_auth->is_logged_in()) {
@@ -54,8 +54,33 @@ class Charge extends CI_Controller {
 			/* Asignamos el idioma español */
 			$crud->set_language('spanish');
 
+			$state = $crud->getState();
 
-			$crud->set_relation('ProductID','product','ProductID');
+			switch ($state) {
+			    case 'success':
+			    	if ($ID != NULL && $ID != 'success') {
+						//echo "success ID = " . $ID . ", state = " . $state;
+						$crud->where('ProductID',$ID);	
+			    	}
+			    break;
+			    case 'list':
+			    	if ($ID != NULL) {
+						//echo "list ID = " . $ID . ", state = " . $state;
+						$crud->where('ProductID',$ID);	
+			    	}
+			    break;
+			    case 'add':
+			    	if ($ID != "add") {
+			        	$crud->field_type('ProductID', 'hidden', $ID);
+			    	}
+			    	else
+			    		$crud->set_relation('ProductID','product','ProductID');
+			    	//echo "add ID = " . $ID . ", state = " . $state;
+				break;
+			    default:
+					//echo "default ID = " . $ID . ", state = " . $state;
+					$crud->set_relation('ProductID','product','ProductID');
+			}
 
 			/* Aqui le decimos a grocery que estos campos son obligatorios */
 			$crud->required_fields(
@@ -67,7 +92,7 @@ class Charge extends CI_Controller {
 					'Value',
 					'Method',
 					'Entity'	
-					); 
+			); 
 
 			/* Aqui le indicamos que campos deseamos mostrar */
 			$crud->columns(
@@ -78,7 +103,8 @@ class Charge extends CI_Controller {
 					'ChargeType',
 					'Value',
 					'Method',
-					'Entity'	
+					'Entity',
+					'Comment'	
 			);
 
 			$crud->display_as('ChargeID','ID');
@@ -89,8 +115,17 @@ class Charge extends CI_Controller {
 			$crud->display_as('Value','Valor');
 			$crud->display_as('Method','Metodo');
 			$crud->display_as('Entity','Entidad');
+			$crud->display_as('Comment','Comentario');
 
 			$crud->set_rules('Value','Valor','numeric');
+			$crud->change_field_type('user_id','invisible');
+
+			// No permite borrado, actualizacion de movimientos
+			$crud->unset_delete();
+			$crud->unset_edit();
+
+			// Log User_ID
+			$crud->callback_before_insert(array($this,'Set_User_ID'));
 
 			/* Generamos la tabla */
 			$output = $crud->render();
@@ -102,5 +137,12 @@ class Charge extends CI_Controller {
 			/* Si algo sale mal cachamos el error y lo mostramos */
 			show_error($e->getMessage().' --- '.$e->getTraceAsString());
 		}
+	}
+
+	// ALA : 13/11/2015 : Gestión Identificador Usuario del aplicativo para log en el movimiento
+	function Set_User_ID($post_array) {
+  		$post_array['user_id'] = $this->session->userdata('user_id');
+ 
+  		return $post_array;
 	}
 }
