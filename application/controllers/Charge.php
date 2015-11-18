@@ -44,6 +44,7 @@ class Charge extends CI_Controller {
 
 			/* Seleccionamos el tema */
 			$crud->set_theme('flexigrid');
+			//$crud->set_theme('datatables');
 
 			/* Seleccionmos el nombre de la tabla de nuestra base de datos*/
 			$crud->set_table('charge');
@@ -82,6 +83,8 @@ class Charge extends CI_Controller {
 					$crud->set_relation('ProductID','product','ProductID');
 			}
 
+			$crud->set_relation('MethodID','method','Description');
+
 			/* Aqui le decimos a grocery que estos campos son obligatorios */
 			$crud->required_fields(
 					'ChargeID',
@@ -90,7 +93,7 @@ class Charge extends CI_Controller {
 					'ChargeDate',
 					'ChargeType',
 					'Value',
-					'Method',
+					'MethodID',
 					'Entity'	
 			); 
 
@@ -102,7 +105,7 @@ class Charge extends CI_Controller {
 					'ChargeDate',
 					'ChargeType',
 					'Value',
-					'Method',
+					'MethodID',
 					'Entity',
 					'Comment'	
 			);
@@ -113,7 +116,7 @@ class Charge extends CI_Controller {
 			$crud->display_as('ChargeDate','Fecha Movimiento');
 			$crud->display_as('ChargeType','Tipo Movimiento');
 			$crud->display_as('Value','Valor');
-			$crud->display_as('Method','Metodo');
+			$crud->display_as('MethodID','Metodo');
 			$crud->display_as('Entity','Entidad');
 			$crud->display_as('Comment','Comentario');
 

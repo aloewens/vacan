@@ -30,5 +30,10 @@ $config['navigation'] = array(
                 'id'     => 'Vendor',
                 'title'  => 'Vendedores',
                 'link'   => 'index.php/Vendor'
+            ),
+            'method' => array(
+                'id'     => 'Method',
+                'title'  => 'Metodos Pago',
+                'link'   => 'index.php/Method'
             )
-       );
+);
