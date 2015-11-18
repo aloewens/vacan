@@ -59,7 +59,7 @@ class Vendor extends CI_Controller {
 					'VendorID',
 					'Name',
 					'Lastname',
-					'IdenType',
+					'IdentType',
 					'Ident',
 					'BirthDate',
 					'RegisterDate',
@@ -72,7 +72,7 @@ class Vendor extends CI_Controller {
 					'VendorID',
 					'Name',
 					'Lastname',
-					'IdenType',
+					'IdentType',
 					'Ident',
 					'BirthDate',
 					'RegisterDate',
@@ -90,7 +90,7 @@ class Vendor extends CI_Controller {
 			$crud->display_as('VendorID','ID');
 			$crud->display_as('Name','Nombre');
 			$crud->display_as('Lastname','Apellido');
-			$crud->display_as('IdenType','Tipo Identificaci&oacuten');
+			$crud->display_as('IdentType','Tipo Identificaci&oacuten');
 			$crud->display_as('Ident','Identificaci&oacuten');
 			$crud->display_as('BirthDate','Fecha Nacimiento');
 			$crud->display_as('RegisterDate','Fecha Ingreso');
