@@ -25,12 +25,13 @@ En el archivo ./vacan/application/config/database.php
 
 Primera letra en Mayuscula para nombre archivo 
 	/vacan/application/models/tank_auth/Users.php
-	/vacan/application/controllers/Auth.php
 	/vacan/application/models/tank_auth/User_autologin.php
 	/vacan/application/models/tank_auth/Login_attempts.php
+	/vacan/application/controllers/Auth.php
+
 
 Nombre debe ser /vacan/application/libraries/Grocery_crud.php
-				/vacan_old/vacan/application/models/Grocery_CRUD_Model.php
+				/vacan/vacan/application/models/Grocery_CRUD_Model.php
 
 Nombre para carpetas de tablas de ser en /vacan/application/views
 	Primeras en mayuscula y ProductCatalog
