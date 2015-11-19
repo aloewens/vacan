@@ -10,7 +10,10 @@ https://www.youtube.com/watch?v=UdyICzcylM0
 
 arreglo //$model = ucfirst($model); en ..system/core/Loader.php linea 293
 
-repositorio subversion https://www.assembla.com/. (aloewens72, A..2)
+repositorio subversion https://www.assembla.com/. (aloewens72, A..2)  https://subversion.assembla.com/svn/vacan/
+repositorio subversion sourceforge (aloewens72, Atl ..2) https://svn.code.sf.net/p/vacan-openlife/code/
+	web page https://sourceforge.net/projects/vacan-openlife/
+
 
 
 Accesso WEB admin, o.._2

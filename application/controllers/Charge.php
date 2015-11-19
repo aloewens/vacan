@@ -120,7 +120,7 @@ class Charge extends CI_Controller {
 			$crud->display_as('Entity','Entidad');
 			$crud->display_as('Comment','Comentario');
 
-			$crud->set_rules('Value','Valor','numeric');
+			$crud->set_rules('Value','Valor','numeric|greater_than[0]'); //http://www.grocerycrud.com/documentation/options_functions/set_rules
 			$crud->change_field_type('user_id','invisible');
 
 			// No permite borrado, actualizacion de movimientos
@@ -129,6 +129,9 @@ class Charge extends CI_Controller {
 
 			// Log User_ID
 			$crud->callback_before_insert(array($this,'Set_User_ID'));
+
+			// Procesos posteriores al registro del movimiento
+			$crud->callback_after_insert(array($this,'ProcessCharge'));
 
 			/* Generamos la tabla */
 			$output = $crud->render();
@@ -140,12 +143,24 @@ class Charge extends CI_Controller {
 			/* Si algo sale mal cachamos el error y lo mostramos */
 			show_error($e->getMessage().' --- '.$e->getTraceAsString());
 		}
+
 	}
 
 	// ALA : 13/11/2015 : Gestión Identificador Usuario del aplicativo para log en el movimiento
 	function Set_User_ID($post_array) {
   		$post_array['user_id'] = $this->session->userdata('user_id');
- 
+ 		
   		return $post_array;
+	}
+
+	// ALA : 19/11/2015 : Procesos post movimiento
+	function ProcessCharge($post_array) {
+		require_once(APPPATH.'models/Sales_Model.php');
+		$sales = new Sales_Model();
+
+		// Actualiza Saldo Producto
+		$sales->UpdateProductBalance($this->input->post('ProductID'), $this->input->post('Value'), $this->input->post('ChargeType'));
+
+  		return true;
 	}
 }

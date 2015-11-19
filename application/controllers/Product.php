@@ -95,7 +95,8 @@ class Product extends CI_Controller {
 					'ClientID',
 					'VendorID',
 					'StartDate',
-					'EndDate'
+					'EndDate',
+					'Balance'
 					);
 
 			/* Aqui le indicamos que campos deseamos mostrar */
@@ -106,7 +107,8 @@ class Product extends CI_Controller {
 					'ClientID',
 					'VendorID',
 					'StartDate',
-					'EndDate'
+					'EndDate',
+					'Balance'
 			);
 
 			$crud->display_as('ProductID','ID');
@@ -116,6 +118,10 @@ class Product extends CI_Controller {
 			$crud->display_as('VendorID','ID Vendedor');
 			$crud->display_as('StartDate','Fecha Inicio Vigencia');
 			$crud->display_as('EndDate','Fecha Fin Vigencia');
+			$crud->display_as('Balance','Saldo');
+
+			$crud->unset_add_fields('Balance');
+			$crud->unset_edit_fields('Balance');
 
 			$crud->add_action('Beneficiarios',base_url() . 'assets/uploads/detalle.png','Beneficiary/administracion');
 			$crud->add_action('Movimientos',base_url() . 'assets/uploads/money.png','Charge/administracion');
@@ -123,6 +129,8 @@ class Product extends CI_Controller {
 			$crud->display_as('ProductID','ID');
 			$crud->display_as('ProductCatalogID','ID Producto');
 
+			// Procesos posteriores a la venta
+			$crud->callback_after_insert(array($this,'Process_Sale'));
 
 			/* Generamos la tabla */
 			$output = $crud->render();
@@ -133,73 +141,39 @@ class Product extends CI_Controller {
 
 		}catch(Exception $e){
 			/* Si algo sale mal cachamos el error y lo mostramos */
+			//log_message($e->getMessage().' --- '.$e->getTraceAsString());
 			show_error($e->getMessage().' --- '.$e->getTraceAsString());
 		}
 	}
 
+	// ALA : 19/11/2015 : Procesamiento necesario para una venta
+	function Process_Sale($post_array) { 
+		require_once(APPPATH.'models/Sales_Model.php');
+		$sales = new Sales_Model();
 
-	function administracion_ori()
-	{
-		if (!$this->tank_auth->is_logged_in()) {
-			redirect('/auth/login/');
-		} 
+	  	$prodID = $this->db->insert_id(); 
+	  	$ref = "Cargo Venta";
+	  	$type = "Debito";
 
-		try{
+	  	// Consulta Valor Tipo Producto 
+	 	$this->db->select('Price'); 
+    	$this->db->from('productcatalog');  
+    	$this->db->where('ProductCatalogID', $this->input->post('ProductCatalogID'));
+    	
+	   	$ret = $this->db->get()->result();
+		$value = $ret[0]->Price;
 
-			/* Creamos el objeto */
-			$crud = new grocery_CRUD();
+    	//log_message('error', 'Value = ' . $value); 
 
-			/* Seleccionamos el tema */
-			$crud->set_theme('datatables');
+    	// Registro Cargo Venta
+	  	$method = 1; 
+	  	$entity = "OpenLife"; 
+	  	$comment = "Cargo Venta"; 
+	  	$user =  $this->session->userdata('user_id');
 
-			/* Seleccionmos el nombre de la tabla de nuestra base de datos*/
-			$crud->set_table('product');
-
-			/* Le asignamos un nombre */
-			$crud->set_subject('Producto Cliente');
-
-			/* Asignamos el idioma español */
-			$crud->set_language('spanish');
-
-   			$crud->set_relation('ProductCatalogID','productcatalog','Description');
-    		$crud->set_relation('ClientID','client','Ident');
-    		$crud->set_relation('VendorID','vendor','Name');
-
-			/* Aqui le decimos a grocery que estos campos son obligatorios */
-			$crud->required_fields(
-					'ProductID',
-					'ProductCatalogID',					
-					'Contract',
-					'ClientID',
-					'VendorID',
-					'StartDate',
-					'EndDate'
-					);
-
-			/* Aqui le indicamos que campos deseamos mostrar */
-			$crud->columns(
-					'ProductID',
-					'ProductCatalogID',
-					'Contract',
-					'ClientID',
-					'VendorID',
-					'StartDate',
-					'EndDate'
-			);
-
-			$crud->display_as('ProductID','ID');
-			$crud->display_as('ProductCatalogID','ID Producto');
-
-
-			/* Generamos la tabla */
-			$output = $crud->render();
-
-			/* La cargamos en la vista situada en */
-			$this->load->view('Product/administracion', $output);
-
-		}catch(Exception $e){
-			/* Si algo sale mal cachamos el error y lo mostramos */
-			show_error($e->getMessage().' --- '.$e->getTraceAsString());
-		}
+ 	  	$sales->RegisterCharge($prodID, $ref, $type, $value, $method, $entity, $comment, $user);
+    	
+       	return true;
 	}
+	
 }
