@@ -120,18 +120,22 @@ class Charge extends CI_Controller {
 			$crud->display_as('Entity','Entidad');
 			$crud->display_as('Comment','Comentario');
 
-			$crud->set_rules('Value','Valor','numeric|greater_than[0]'); //http://www.grocerycrud.com/documentation/options_functions/set_rules
-			$crud->change_field_type('user_id','invisible');
-
-			// No permite borrado, actualizacion de movimientos
-			$crud->unset_delete();
-			$crud->unset_edit();
+			$crud->set_rules('Value','Valor','numeric|greater_than[0]|callback_ValidBalance'); //http://www.grocerycrud.com/documentation/options_functions/set_rules
+			$crud->set_rules('ChargeType','Tipo Movimiento','in_list[Credito]'); 
+			
 
 			// Log User_ID
 			$crud->callback_before_insert(array($this,'Set_User_ID'));
 
 			// Procesos posteriores al registro del movimiento
 			$crud->callback_after_insert(array($this,'ProcessCharge'));
+
+			// No permite borrado, actualizacion de movimientos
+			$crud->change_field_type('user_id','invisible');
+			$crud->unset_delete();
+			$crud->unset_edit();
+
+			//$crud->set_rules('Value', 'Valor', 'callback_ValidBalance'); 
 
 			/* Generamos la tabla */
 			$output = $crud->render();
@@ -158,9 +162,29 @@ class Charge extends CI_Controller {
 		require_once(APPPATH.'models/Sales_Model.php');
 		$sales = new Sales_Model();
 
-		// Actualiza Saldo Producto
-		$sales->UpdateProductBalance($this->input->post('ProductID'), $this->input->post('Value'), $this->input->post('ChargeType'));
+		$ProdID = $this->input->post('ProductID');
+		$balance = $sales->GetProductBalance($ProdID, $this->input->post('Value'), $this->input->post('ChargeType'));
 
-  		return true;
+		// Actualiza Saldo Producto
+		if (!$sales->UpdateProductBalance($ProdID, $balance)) 
+			return false;
+		else 
+			return true;
+	}
+
+	function ValidBalance() {
+		require_once(APPPATH.'models/Sales_Model.php');
+		$sales = new Sales_Model();
+
+		$ProdID = $this->input->post('ProductID');
+		$balance = $sales->GetProductBalance($ProdID, $this->input->post('Value'), $this->input->post('ChargeType'));
+
+		// Actualiza Saldo Producto
+		if ($balance < 0) {
+			$this->form_validation->set_message('ValidBalance', 'El Saldo del Producto ' . $ProdID . ' no puede quedar Negativo : ' . $balance);
+        	return false;
+    	}
+
+    	return true;
 	}
 }

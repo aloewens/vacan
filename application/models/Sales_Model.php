@@ -42,14 +42,16 @@ class Sales_Model extends CI_Model  {
 	  	$this->db->set('user_id', $user); 
 		$this->db->insert('Charge');
 
+		// Gestiona Saldo Producto
+		$balance = $this->GetProductBalance($prodID, $value, $type);
+
 		// Actualizar Saldo producto
-		$this->UpdateProductBalance($prodID, $value, $type);
+		$this->UpdateProductBalance($prodID, $balance);
 
     	return true;
     }
 
-    public function UpdateProductBalance ($ProdID, $value, $type) {
-    	
+    public function GetProductBalance ($ProdID, $value, $type) {
 		// ConsultaProducto
 	 	$this->db->select('Balance'); 
     	$this->db->from('product');  
@@ -57,9 +59,11 @@ class Sales_Model extends CI_Model  {
     	
 	   	$ret = $this->db->get()->result();
 
-	   	if ($ret[0]->Balance === NULL)
-	   		$balance = 0;
-	   	else
+		//log_message('error', 'ProductID = ' . $ProdID . ', value = ' . $value . ', type = ' . $type . ', saldo_ini = ' . $ret[0]->Balance); 
+
+		if ($ret[0]->Balance === NULL) {
+    		   		$balance = 0;
+	   	} else
 			$balance = $ret[0]->Balance;
 
 		if (strcmp ("Debito", $type) == 0) {
@@ -68,16 +72,27 @@ class Sales_Model extends CI_Model  {
     		$balance -= $value;
     	}
 
-   		//log_message('debito balance = ' . $balance . ', ProductID = ' . $ProdID . ', type =' . $type); 
+		//log_message('error', 'GetSaldo = ' . $balance); 
 
-    	$data = array(
-               'Balance' => $balance
-        );
+    	return $balance;
+    }
 
 
-		$this->db->where('ProductID', $ProdID);
-		$this->db->update('product', $data); 
+    public function UpdateProductBalance ($ProdID, $balance) {
+    	//log_message('error', 'UPD_Saldo = ' . $balance); 
+    	if ($balance >= 0) {
+	    	$data = array(
+    	           'Balance' => $balance
+        	);
 
-		return true;
+			$this->db->where('ProductID', $ProdID);
+			$this->db->update('product', $data); 
+
+			return true;
+		} else {
+			//log_message('error', 'Actualizacion Saldo Negativo no Posible ProductID = ' . $ProdID . ' Saldo = ' . $balance); 	
+			return false;
+		}
+
     }
 }
