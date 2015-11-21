@@ -41,8 +41,6 @@ Nombre para carpetas de tablas de ser en /vacan/application/views
 
 
 Nombres de tablas en minusculas
-
-
 __________________
 
 NIVEL LOG
