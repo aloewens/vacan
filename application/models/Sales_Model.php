@@ -40,7 +40,7 @@ class Sales_Model extends CI_Model  {
 	  	$this->db->set('Entity', $entity); 
 	  	$this->db->set('Comment', $comment); 
 	  	$this->db->set('user_id', $user); 
-		$this->db->insert('Charge');
+		$this->db->insert('charge');
 
 		// Gestiona Saldo Producto
 		$balance = $this->GetProductBalance($prodID, $value, $type);

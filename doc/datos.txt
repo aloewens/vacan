@@ -41,3 +41,9 @@ Nombre para carpetas de tablas de ser en /vacan/application/views
 
 
 Nombres de tablas en minusculas
+
+
+__________________
+
+NIVEL LOG
+	en ..config/config.php   $config['log_threshold'] = 1; 

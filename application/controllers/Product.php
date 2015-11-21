@@ -45,7 +45,7 @@ class Product extends CI_Controller {
 			/* Seleccionamos el tema */
 			$crud->set_theme('flexigrid');
 
-			/* Seleccionmos el nombre de la tabla de nuestra base de datos*/
+			/* Seleccionamos el nombre de la tabla de nuestra base de datos*/
 			$crud->set_table('product');
 
 			/* Le asignamos un nombre */
@@ -57,6 +57,7 @@ class Product extends CI_Controller {
 			/* ALA - 10/11/2015 : Condiciona invocación maestro detalle */
 			$state = $crud->getState();
 
+			//echo "ID = " . $ID . ", state = " . $state;
 			switch ($state) {
 			    case 'success':
 			    	if ($ID != NULL && $ID != 'success') {
