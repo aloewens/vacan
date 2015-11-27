@@ -14,7 +14,12 @@ repositorio subversion https://www.assembla.com/. (aloewens72, A..2)  https://su
 repositorio subversion sourceforge (aloewens72, Atl ..2) https://svn.code.sf.net/p/vacan-openlife/code/
 	web page https://sourceforge.net/projects/vacan-openlife/
 
+repositorio GitHub
+	aloewens72@gmail.com  An .. 2
 
+FTP
+ftp.openlife.com.co
+openlifecomco, A .. 2
 
 Accesso WEB admin, o.._2
 ------ Ajustes WEB --------
