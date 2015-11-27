@@ -60,7 +60,6 @@ class Sales_Model extends CI_Model  {
 	   	$ret = $this->db->get()->result();
 
 		//log_message('error', 'ProductID = ' . $ProdID . ', value = ' . $value . ', type = ' . $type . ', saldo_ini = ' . $ret[0]->Balance); 
-
 		if ($ret[0]->Balance === NULL) {
     		   		$balance = 0;
 	   	} else

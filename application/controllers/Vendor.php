@@ -100,6 +100,9 @@ class Vendor extends CI_Controller {
 			$crud->display_as('Phone2','Tel&eacutefono 2');
 			$crud->display_as('Phone3','Tel&eacutefono 3');
 
+			// ver productos
+			$crud->add_action('Productos',base_url() . 'assets/uploads/detalle.png','Product/admin_by_vendor');
+			
 			/* Generamos la tabla */
 			$output = $crud->render();
 

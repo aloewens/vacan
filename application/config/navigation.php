@@ -13,7 +13,7 @@ $config['navigation'] = array(
             ),
             'sale' => array(
                 'id'     => 'Sale',
-                'title'  => 'Productos Cliente',
+                'title'  => 'Productos',
                 'link'   => 'index.php/Product'
             ),
             'beneficiary' => array(

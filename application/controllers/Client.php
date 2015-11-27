@@ -87,7 +87,7 @@ class Client extends CI_Controller {
 					'Company'
 			);
 
-			$crud->add_action('Productos',base_url() . 'assets/uploads/detalle.png','Product/administracion');
+			$crud->add_action('Productos',base_url() . 'assets/uploads/detalle.png','Product/admin_by_client');
 
 			$crud->display_as('ClientID','ID');
 			$crud->display_as('Name','Nombre');

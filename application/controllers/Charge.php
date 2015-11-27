@@ -54,7 +54,7 @@ class Charge extends CI_Controller {
 
 			/* Asignamos el idioma español */
 			$crud->set_language('spanish');
-
+			
 			$state = $crud->getState();
 
 			switch ($state) {
@@ -123,7 +123,6 @@ class Charge extends CI_Controller {
 			$crud->set_rules('Value','Valor','numeric|greater_than[0]|callback_ValidBalance'); //http://www.grocerycrud.com/documentation/options_functions/set_rules
 			$crud->set_rules('ChargeType','Tipo Movimiento','in_list[Credito]'); 
 			
-
 			// Log User_ID
 			$crud->callback_before_insert(array($this,'Set_User_ID'));
 
