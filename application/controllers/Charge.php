@@ -84,6 +84,7 @@ class Charge extends CI_Controller {
 			}
 
 			$crud->set_relation('MethodID','method','Description');
+			$crud->set_relation('ChConceptID','concept','Description');
 
 			/* Aqui le decimos a grocery que estos campos son obligatorios */
 			$crud->required_fields(
@@ -92,6 +93,7 @@ class Charge extends CI_Controller {
 					'Reference',
 					'ChargeDate',
 					'ChargeType',
+					'ChConceptID',
 					'Value',
 					'MethodID',
 					'Entity'	
@@ -104,6 +106,7 @@ class Charge extends CI_Controller {
 					'Reference',
 					'ChargeDate',
 					'ChargeType',
+					'ChConceptID',
 					'Value',
 					'MethodID',
 					'Entity',
@@ -115,6 +118,7 @@ class Charge extends CI_Controller {
 			$crud->display_as('Reference','Referencia');
 			$crud->display_as('ChargeDate','Fecha Movimiento');
 			$crud->display_as('ChargeType','Tipo Movimiento');
+			$crud->display_as('ChConceptID','Concepto');
 			$crud->display_as('Value','Valor');
 			$crud->display_as('MethodID','Metodo');
 			$crud->display_as('Entity','Entidad');
